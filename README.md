@@ -82,11 +82,11 @@ The coolest part of this is in the composition-assistant.absolute package. (It's
 Or, if you just want to skip all this and get pitches in a scale + the corresponding 7ths:
 
     user> (roots-and-chords lydian 'C)
-    ([C major-7th (C E G B)] [D dominant-7th (C E G Bb)] [E minor-7th (C Eb G Bb)] 
-     [F# minor-7th-b5 (C Eb Gb Bb)] [G major-7th (C E G B)] [A minor-7th (C Eb G Bb)] [B minor-7th (C Eb G Bb)])
-    user> (roots-and-chords locrian-b7 'D)
-    ([D diminished-7th] [Eb major-7th] [F minor-7th-b5] [G minor-7th] 
-     [Ab minor-major-7th] [Bb dominant-7th] [Cb augmented-7th])
+    ([C major-7th (C E G B)] [D dominant-7th (D F# A C)] [E minor-7th (E G B D)]
+     [F# minor-7th-b5 (F# A C E)] [G major-7th (G B D F#)] [A minor-7th (A C E G)] [B minor-7th (B D F# A)])
+    user> (roots-and-chords mixo-b2-b6 'B)
+    ([B dominant-7th (B D# F# A)] [C major-7th (C E G B)] [D# diminished-7th (D# F# A C)]
+     [E minor-major-7th (E G B D#)] [F# minor-7th-b5 (F# A C E)] [G augmented-7th (G B D# F#)] [A minor-7th (A C E G)])
 
 The testing is nonexistent (so I wouldn't use it for your homework), but I haven't seen any problems so far.
 
