@@ -44,7 +44,14 @@ There are also ways of finding intervals:
     user> (interval 2 7)
     minor-6
     user> (interval 'M7 4)
+    diminished-5
+
+Note that the interval function should correctly take into account scale distance (it probably doesn't handle all cases right now, but I'll add them as they come up).
+
+    user> (interval 1 's4)
     augmented-4
+    user> (interval 1 'b5)
+    diminished-5
 
 Converting a vector of scale tones into chords:
 

@@ -15,6 +15,7 @@
    's4 7
    'b5 7
    '5 8
+   's5 9
    'b6 9
    '6 10
    'b7 10
@@ -32,6 +33,7 @@
    's4 4
    'b5 5
    '5 5
+   's5 5
    'b6 6
    '6 6
    'b7 7
@@ -100,15 +102,21 @@
   [fst snd]
   (let [ab-dist (absolute-distance fst snd)
         sc-dist (scale-distance fst snd)]
-    (if (some #{ab-dist} [4 7 10])
+    (if (some #{ab-dist} [4 5 7 9 10])
       ; need special logic for these
       (cond
        (= ab-dist 4) (if (= sc-dist 2)
                        'augmented-2
                        'minor-3)
+       (= ab-dist 5) (if (= sc-dist 3)
+                       'major-3
+                       'diminished-4)
        (= ab-dist 7) (if (= sc-dist 4)
                        'augmented-4
                        'diminished-5)
+       (= ab-dist 9) (if (= sc-dist 6)
+                       'minor-6
+                       'augmented-5)
        (= ab-dist 10) (if (= sc-dist 6)
                         'major-6
                         'diminished-7))
