@@ -196,7 +196,7 @@
   (let [absolute-distance (interval-to-absolute-distance interval)
         base-pitches (base-pitches (associated-pitch pitch))
         scale-distance (interval-to-scale-distance interval)
-        added-base-pitch (nth base-pitches (- scale-distance 1))
+        added-base-pitch (nth base-pitches scale-distance)
         added-chromatic (mod (+ (pitch-to-chromatic pitch) absolute-distance) 12)]
     ((chromatic-to-pitches added-chromatic) added-base-pitch)))
 
@@ -207,10 +207,10 @@
     [(concat accum [(add-interval (last accum) (first intervals))])
      (rest intervals)]))
 
-(defn scale-to-pitches
-  [scale starting-note]
+(defn notes-to-pitches
+  [notes starting-note]
   (loop [accum [starting-note]
-         intervals (intervals scale)]
+         intervals (intervals notes)]
     (if (empty? intervals)
       accum
       (let [[a i] (scale-to-pitches-iter accum intervals)]

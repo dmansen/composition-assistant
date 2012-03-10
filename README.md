@@ -68,9 +68,18 @@ Converting a vector of scale tones into chords:
     user> (map #(notes-to-chord (seventh dorian %)) (range 1 8))
     (minor-7th minor-7th major-7th dominant-7th minor-7th minor-7th-b5 major-7th)
 
-## TODO
+The coolest part of this is in the composition-assistant.absolute package. (It's also terribly written as of right now.) Given pitch-agnostic vectors of notes and a key, you can convert them. This will do all the correct theory stuff.
 
-Convert these into actual notes on a piano. Might need to do this stupidly at first (it probably won't give you the correct enharmonic version of a pitch, but will be good enough).
+    user> (notes-to-pitches ionian 'C)
+    (C D E F G A B)
+    user> (notes-to-pitches mixo 'G)
+    (G A B C D E F)
+    user> (notes-to-pitches mixo-b2-b6 'C#)
+    (C# D E# F# G# A B)
+    user> (notes-to-pitches aeolian 'Bb)
+    (Bb C Db Eb F Gb Ab)
+
+The testing is nonexistent (so I wouldn't use it for your homework), but I haven't seen any problems so far.
 
 ## License
 

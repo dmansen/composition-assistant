@@ -82,24 +82,24 @@
    12 'octave})
 
 (def interval-to-scale-distance
-  {'unity 1
-   'minor-2 2
-   'major-2 2
-   'augmented-2 2
-   'minor-3 3
-   'major-3 3
-   'diminished-4 4
-   'perfect-4 4
-   'augmented-4 4
-   'diminished-5 5
-   'perfect-5 5
-   'augmented-5 5
-   'minor-6 6
-   'major-6 6
-   'diminished-7 7
-   'minor-7 7
-   'major-7 7
-   'octave 8})
+  {'unity 0
+   'minor-2 1
+   'major-2 1
+   'augmented-2 1
+   'minor-3 2
+   'major-3 2
+   'diminished-4 3
+   'perfect-4 3
+   'augmented-4 3
+   'diminished-5 4
+   'perfect-5 4
+   'augmented-5 4
+   'minor-6 5
+   'major-6 5
+   'diminished-7 6
+   'minor-7 6
+   'major-7 6
+   'octave 7})
 
 (def interval-to-absolute-distance
   {'unity 0
@@ -133,30 +133,31 @@
   [fst snd]
   (let [fp (note2position fst)
         sp (note2position snd)]
-    (+ 1 (if (> 0 (- sp fp))
-           (- (+ sp 7) fp)
-           (- sp fp)))))
+    (if (> 0 (- sp fp))
+      (- (+ sp 7) fp)
+      (- sp fp))))
 
 (defn interval
   [fst snd]
   (let [ab-dist (absolute-distance fst snd)
         sc-dist (scale-distance fst snd)]
     (if (some #{ab-dist} [3 4 6 8 9])
-      ; need special logic for these
+      ; need special logic for these enharmonic equivalents.
+      ; they change based on their function in the scale ("scale distance")
       (cond
-       (= ab-dist 3) (if (= sc-dist 2)
+       (= ab-dist 3) (if (= sc-dist 1)
                        'augmented-2
                        'minor-3)
-       (= ab-dist 4) (if (= sc-dist 3)
+       (= ab-dist 4) (if (= sc-dist 2)
                        'major-3
                        'diminished-4)
-       (= ab-dist 6) (if (= sc-dist 4)
+       (= ab-dist 6) (if (= sc-dist 3)
                        'augmented-4
                        'diminished-5)
-       (= ab-dist 8) (if (= sc-dist 6)
+       (= ab-dist 8) (if (= sc-dist 5)
                        'minor-6
                        'augmented-5)
-       (= ab-dist 9) (if (= sc-dist 6)
+       (= ab-dist 9) (if (= sc-dist 5)
                         'major-6
                         'diminished-7))
       (interval-map ab-dist))))
@@ -179,6 +180,7 @@
          i2 (interval two three)
          i3 (interval three seventh)]
      (cond
+      ; TODO This could be improved a whole lot with pattern matching
       (and (= i1 'major-3) (= i2 'minor-3) (= i3 'major-3)) 'major-7th
       (and (= i1 'major-3) (= i2 'major-3) (= i3 'minor-3)) 'augmented-7th
       (and (= i1 'major-3) (= i2 'minor-3) (= i3 'minor-3)) 'dominant-7th
