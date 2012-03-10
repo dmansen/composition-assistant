@@ -215,3 +215,7 @@
       accum
       (let [[a i] (scale-to-pitches-iter accum intervals)]
         (recur a i)))))
+
+(defn roots-and-chords
+  [scale starting-note]
+  (map (fn [x y] [x y]) (notes-to-pitches scale starting-note) (all-sevenths scale)))

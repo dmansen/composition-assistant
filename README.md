@@ -79,6 +79,11 @@ The coolest part of this is in the composition-assistant.absolute package. (It's
     user> (notes-to-pitches aeolian 'Bb)
     (Bb C Db Eb F Gb Ab)
 
+Or, if you just want to skip all this and get pitches in a scale + the corresponding 7ths:
+
+    user> (roots-and-chords locrian-b7 'D)
+    ([D diminished-7th] [Eb major-7th] [F minor-7th-b5] [G minor-7th] [Ab minor-major-7th] [Bb dominant-7th] [Cb augmented-7th])
+
 The testing is nonexistent (so I wouldn't use it for your homework), but I haven't seen any problems so far.
 
 ## License
