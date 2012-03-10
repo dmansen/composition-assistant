@@ -91,3 +91,11 @@
 
 (def locrian-2-6
   '[1 2 b3 4 b5 6 7])
+
+(def all-scales
+  [ionian mixo mixo-b6 mixo-b2-b6 harmonic-major lydian
+   mixo-s4 mixo-b2 lydian-s2 ionian-s5 lydian-s5 lydian-s2-s5
+   aeolian harmonic-minor melodic-minor melodic-minor-s4
+   dorian dorian-b2 dorian-s4 phrygian phrygian-b4
+   locrian locrian-b4 locrian-b4-b7 locrian-b7 locrian-6
+   locrian-2 locrian-2-6])

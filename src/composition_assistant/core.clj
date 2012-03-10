@@ -1,27 +1,24 @@
 (ns composition-assistant.core
   (use clojure.set))
 
-(def chromatic
-  '[1 2 3 4 5 6 7 8 9 10 11 12])
-
 (def n2c
-  {'1 1
-   'b2 2
-   '2 3
-   's2 4
-   'b3 4
-   '3 5
-   'b4 5
-   '4 6
-   's4 7
-   'b5 7
-   '5 8
-   's5 9
-   'b6 9
-   '6 10
-   'b7 10
-   '7 11
-   'M7 12})
+  {'1 0
+   'b2 1
+   '2 2
+   's2 3
+   'b3 3
+   '3 4
+   'b4 4
+   '4 5
+   's4 6
+   'b5 6
+   '5 7
+   's5 8
+   'b6 8
+   '6 9
+   'b7 9
+   '7 10
+   'M7 11})
 
 (def note2position
   {'1 1
@@ -70,27 +67,67 @@
     [one two three seven]))
 
 (def interval-map
-  {1 'unity
-   2 'minor-2
-   3 'major-2
-   4 'minor-3
-   5 'major-3
-   6 'perfect-4
-   7 'augmented-4
-   8 'perfect-5
-   9 'minor-6
-   10 'major-6
-   11 'minor-7
-   12 'major-7
-   13 'octave})
+  {0 'unity
+   1 'minor-2
+   2 'major-2
+   3 'minor-3
+   4 'major-3
+   5 'perfect-4
+   6 'augmented-4
+   7 'perfect-5
+   8 'minor-6
+   9 'major-6
+   10 'minor-7
+   11 'major-7
+   12 'octave})
+
+(def interval-to-scale-distance
+  {'unity 1
+   'minor-2 2
+   'major-2 2
+   'augmented-2 2
+   'minor-3 3
+   'major-3 3
+   'diminished-4 4
+   'perfect-4 4
+   'augmented-4 4
+   'diminished-5 5
+   'perfect-5 5
+   'augmented-5 5
+   'minor-6 6
+   'major-6 6
+   'diminished-7 7
+   'minor-7 7
+   'major-7 7
+   'octave 8})
+
+(def interval-to-absolute-distance
+  {'unity 0
+   'minor-2 1
+   'major-2 2
+   'augmented-2 3
+   'minor-3 3
+   'major-3 4
+   'diminished-4 4
+   'perfect-4 5
+   'augmented-4 6
+   'diminished-5 6
+   'perfect-5 7
+   'augmented-5 8
+   'minor-6 8
+   'major-6 9
+   'diminished-7 9
+   'minor-7 10
+   'major-7 11
+   'octave 12})
 
 (defn absolute-distance
   [fst snd]
   (let [fc (n2c fst)
         sc (n2c snd)]
-    (+ 1 (if (> 0 (- sc fc))
-           (- (+ sc 12) fc)
-           (- sc fc)))))
+    (if (> 0 (- sc fc))
+      (- (+ sc 12) fc)
+      (- sc fc))))
 
 (defn scale-distance
   [fst snd]
@@ -104,27 +141,28 @@
   [fst snd]
   (let [ab-dist (absolute-distance fst snd)
         sc-dist (scale-distance fst snd)]
-    (if (some #{ab-dist} [4 5 7 9 10])
+    (if (some #{ab-dist} [3 4 6 8 9])
       ; need special logic for these
       (cond
-       (= ab-dist 4) (if (= sc-dist 2)
+       (= ab-dist 3) (if (= sc-dist 2)
                        'augmented-2
                        'minor-3)
-       (= ab-dist 5) (if (= sc-dist 3)
+       (= ab-dist 4) (if (= sc-dist 3)
                        'major-3
                        'diminished-4)
-       (= ab-dist 7) (if (= sc-dist 4)
+       (= ab-dist 6) (if (= sc-dist 4)
                        'augmented-4
                        'diminished-5)
-       (= ab-dist 9) (if (= sc-dist 6)
+       (= ab-dist 8) (if (= sc-dist 6)
                        'minor-6
                        'augmented-5)
-       (= ab-dist 10) (if (= sc-dist 6)
+       (= ab-dist 9) (if (= sc-dist 6)
                         'major-6
                         'diminished-7))
       (interval-map ab-dist))))
 
 (defn notes-to-chord
+  "Converts a vector of notes into a chord. Only handles triads and sevenths currently."
   [chord]
   (cond
    (= 3 (count chord)) 
@@ -148,3 +186,13 @@
       (and (= i1 'minor-3) (= i2 'major-3) (= i3 'major-3)) 'minor-major-7th
       (and (= i1 'minor-3) (= i2 'minor-3) (= i3 'major-3)) 'minor-7th-b5
       (and (= i1 'minor-3) (= i2 'minor-3) (= i3 'minor-3)) 'diminished-7th))))
+
+(defn all-sevenths
+  "Given a scale, gives you all the seventh chords in that scale."
+  [scale]
+  (map #(notes-to-chord (seventh scale %)) (range 1 8)))
+
+(defn all-triads
+  "Given a scale, gives you all the triads in that scale."
+  [scale]
+  (map #(notes-to-chord (triad scale %)) (range 1 8)))
