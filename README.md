@@ -20,9 +20,9 @@ Play with it at the REPL. I use a jazz notation for scale tones, which consists 
     6  major 6th
     b7 diminished 7th
     7  minor 7th
-    m7 major 7th
+    M7 major 7th
 
-Form chords using vectors of these. For example, a major 7th chord built on the tonic looks like: '[1 3 5 m7]
+Form chords using vectors of these. For example, a major 7th chord built on the tonic looks like: '[1 3 5 M7]
 
 All of the scales I know are enumerated in composition-assistant.scales. This allows you to do things like:
 
@@ -30,12 +30,12 @@ All of the scales I know are enumerated in composition-assistant.scales. This al
     [b3 5 7]
 
     user> (seventh ionian 5)
-    [5 m7 2 4]
+    [5 M7 2 4]
 
 Or you can get a bit fancier and find, for example, all 7th chords in the major scale.
 
     user> (map #(seventh ionian %) (range 1 8))
-    ([1 3 5 m7] [2 4 6 1] [3 5 m7 2] [4 6 1 3] [5 m7 2 4] [6 1 3 5] [m7 2 4 6])
+    ([1 3 5 M7] [2 4 6 1] [3 5 M7 2] [4 6 1 3] [5 M7 2 4] [6 1 3 5] [M7 2 4 6])
 
 There are also ways of finding intervals:
 
@@ -43,18 +43,18 @@ There are also ways of finding intervals:
     minor-3
     user> (interval 2 7)
     minor-6
-    user> (interval 'm7 4)
+    user> (interval 'M7 4)
     augmented-4
 
 Converting a vector of scale tones into chords:
 
     user> (seventh melodic-minor 1)
-    [1 b3 5 m7]
+    [1 b3 5 M7]
     user> (apply notes-to-chord (seventh melodic-minor 1))
     minor-major-7th
 
     user> (seventh ionian 5)
-    [5 m7 2 4]
+    [5 M7 2 4]
     user> (apply notes-to-chord (seventh ionian 5))
     dominant-7th
 
