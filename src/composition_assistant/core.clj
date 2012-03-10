@@ -47,3 +47,48 @@
         three (nth (concat scale scale) (+ 4 real-starting))
         seven (nth (concat scale scale) (+ 6 real-starting))]
     [one two three seven]))
+
+(def interval-map
+  {0 'unity
+   1 'minor-2
+   2 'major-2
+   3 'minor-3
+   4 'major-3
+   5 'perfect-4
+   6 'augmented-4
+   7 'perfect-5
+   8 'minor-6
+   9 'major-6
+   10 'minor-7
+   11 'major-7
+   12 'octave})
+
+(defn interval
+  [fst snd]
+  (let [fc (n2c fst)
+        sc (n2c snd)
+        dist (if (> 0 (- sc fc))
+               (- (+ sc 12) fc)
+               (- sc fc))]
+    (interval-map dist)))
+
+(defn notes-to-chord
+  ([one two three]
+     (let [i1 (interval one two)
+           i2 (interval two three)]
+       (cond (and (= i1 'major-3) (= i2 'minor-3)) 'major
+             (and (= i1 'minor-3) (= i2 'major-3)) 'minor
+             (and (= i1 'minor-3) (= i2 'minor-3)) 'diminished
+             (and (= i1 'major-3) (= i2 'major-3)) 'augmented)))
+  ([one two three seventh]
+     (let [i1 (interval one two)
+           i2 (interval two three)
+           i3 (interval three seventh)]
+       (cond
+        (and (= i1 'major-3) (= i2 'minor-3) (= i3 'major-3)) 'major-7th
+        (and (= i1 'major-3) (= i2 'major-3) (= i3 'minor-3)) 'augmented-7th
+        (and (= i1 'major-3) (= i2 'minor-3) (= i3 'minor-3)) 'dominant-7th
+        (and (= i1 'minor-3) (= i2 'major-3) (= i3 'minor-3)) 'minor-7th
+        (and (= i1 'minor-3) (= i2 'major-3) (= i3 'major-3)) 'minor-major-7th
+        (and (= i1 'minor-3) (= i2 'minor-3) (= i3 'major-3)) 'minor-7th-b5
+        (and (= i1 'minor-3) (= i2 'minor-3) (= i3 'minor-3)) 'diminished-7th))))
