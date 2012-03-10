@@ -89,85 +89,6 @@
    10 '{A A# B Bb C Cbb}
    11 '{B B C Cb A A##}})
 
-(def note2c
-  {'1 'C
-   'b2 'Db
-   '2 'D
-   's2 'D#
-   'b3 'Eb
-   '3 'E
-   'b4 'Fb
-   '4 'F
-   's4 'F#
-   'b5 'Gb
-   '5 'G
-   's5 'G#
-   'b6 'Ab
-   '6 'A
-   'b7 'Bbb
-   '7 'Bb
-   'M7 'B})
-
-(def sharp
-  {'C 'C#
-   'B# 'B##
-   'Dbb 'Db
-   'C# 'C##
-   'Db 'D
-   'D 'D#
-   'Ebb 'Eb
-   'D# 'D##
-   'Eb 'E
-   'Fbb 'Fb
-   'E 'E#
-   'Fb 'F
-   'F 'F#
-   'E# 'E##
-   'Gbb 'Gb
-   'F# 'F##
-   'Gb 'G
-   'G 'G#
-   'Abb 'Ab
-   'G# 'G##
-   'Ab 'A
-   'A 'A#
-   'Bbb 'Bb
-   'A# 'A##
-   'Bb 'B
-   'Cbb 'Cb
-   'B 'B#
-   'Cb 'C})
-
-(def flat
-  {'C 'Cb
-   'B# 'B
-   'C# 'C
-   'Db 'Dbb
-   'B## 'B#
-   'D 'Db
-   'C## 'C#
-   'D# 'D
-   'Eb 'Ebb
-   'E 'Eb
-   'Fb 'Fbb
-   'D## 'D#
-   'F 'Fb
-   'E# 'E
-   'F# 'F
-   'Gb 'Gbb
-   'E## 'E#
-   'G 'Gb
-   'F## 'F#
-   'G# 'G
-   'Ab 'Abb
-   'A 'Ab
-   'G## 'G#
-   'A# 'A
-   'Bb 'Bbb
-   'B 'Bb
-   'Cb 'Cbb
-   'A## 'A#})
-
 (defn rotate-until-first
   [elem coll]
   (if (= elem (first coll))
@@ -178,6 +99,8 @@
   [start]
   (rotate-until-first start '[C D E F G A B]))
 
+; there's gotta be a stdlib function to do this.
+; or with a fold, or something.
 (defn each-pair
   [f coll]
   (loop [accum []
@@ -191,6 +114,9 @@
   [scale]
   (each-pair interval scale))
 
+; this function is all sorts of messed up. but, it works.
+; uses the absolute distance we need to travel along with the interval
+; (and associate scale functioning).
 (defn add-interval
   [pitch interval]
   (let [absolute-distance (interval-to-absolute-distance interval)
@@ -200,22 +126,19 @@
         added-chromatic (mod (+ (pitch-to-chromatic pitch) absolute-distance) 12)]
     ((chromatic-to-pitches added-chromatic) added-base-pitch)))
 
-(defn scale-to-pitches-iter
-  [accum intervals]
-  (if (empty? intervals)
-    accum
-    [(concat accum [(add-interval (last accum) (first intervals))])
-     (rest intervals)]))
-
 (defn notes-to-pitches
   [notes starting-note]
   (loop [accum [starting-note]
          intervals (intervals notes)]
     (if (empty? intervals)
       accum
-      (let [[a i] (scale-to-pitches-iter accum intervals)]
-        (recur a i)))))
+      (recur (concat accum [(add-interval (last accum) (first intervals))])
+             (rest intervals)))))
 
 (defn roots-and-chords
   [scale starting-note]
-  (map (fn [x y] [x y]) (notes-to-pitches scale starting-note) (all-sevenths scale)))
+  (map (fn [i pitch svnth]
+         [pitch svnth (notes-to-pitches (seventh scale i) starting-note)])
+       (range 1 8)
+       (notes-to-pitches scale starting-note)
+       (all-sevenths scale)))

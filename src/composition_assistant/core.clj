@@ -170,6 +170,7 @@
    (let [[one two three] chord
          i1 (interval one two)
          i2 (interval two three)]
+     ; TODO add pattern matching
      (cond (and (= i1 'major-3) (= i2 'minor-3)) 'major
            (and (= i1 'minor-3) (= i2 'major-3)) 'minor
            (and (= i1 'minor-3) (= i2 'minor-3)) 'diminished
