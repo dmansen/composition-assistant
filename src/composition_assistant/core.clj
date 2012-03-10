@@ -21,6 +21,23 @@
    '7 11
    'M7 12})
 
+(def note2position
+  {'1 1
+   'b2 2
+   '2 2
+   's2 2
+   'b3 3
+   '3 3
+   '4 4
+   's4 4
+   'b5 5
+   '5 5
+   'b6 6
+   '6 6
+   'b7 7
+   '7 7
+   'M7 7})
+
 (def c2n (map-invert n2c))
 
 (defn chord-to-chromatic
@@ -49,28 +66,53 @@
     [one two three seven]))
 
 (def interval-map
-  {0 'unity
-   1 'minor-2
-   2 'major-2
-   3 'minor-3
-   4 'major-3
-   5 'perfect-4
-   6 'augmented-4
-   7 'perfect-5
-   8 'minor-6
-   9 'major-6
-   10 'minor-7
-   11 'major-7
-   12 'octave})
+  {1 'unity
+   2 'minor-2
+   3 'major-2
+   4 'minor-3
+   5 'major-3
+   6 'perfect-4
+   7 'augmented-4
+   8 'perfect-5
+   9 'minor-6
+   10 'major-6
+   11 'minor-7
+   12 'major-7
+   13 'octave})
+
+(defn absolute-distance
+  [fst snd]
+  (let [fc (n2c fst)
+        sc (n2c snd)]
+    (+ 1 (if (> 0 (- sc fc))
+           (- (+ sc 12) fc)
+           (- sc fc)))))
+
+(defn scale-distance
+  [fst snd]
+  (let [fp (note2position fst)
+        sp (note2position snd)]
+    (+ 1 (if (> 0 (- sp fp))
+           (- (+ sp 7) fp)
+           (- sp fp)))))
 
 (defn interval
   [fst snd]
-  (let [fc (n2c fst)
-        sc (n2c snd)
-        dist (if (> 0 (- sc fc))
-               (- (+ sc 12) fc)
-               (- sc fc))]
-    (interval-map dist)))
+  (let [ab-dist (absolute-distance fst snd)
+        sc-dist (scale-distance fst snd)]
+    (if (some #{ab-dist} [4 7 10])
+      ; need special logic for these
+      (cond
+       (= ab-dist 4) (if (= sc-dist 2)
+                       'augmented-2
+                       'minor-3)
+       (= ab-dist 7) (if (= sc-dist 4)
+                       'augmented-4
+                       'diminished-5)
+       (= ab-dist 10) (if (= sc-dist 6)
+                        'major-6
+                        'diminished-7))
+      (interval-map ab-dist))))
 
 (defn notes-to-chord
   [chord]
