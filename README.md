@@ -50,13 +50,16 @@ Converting a vector of scale tones into chords:
 
     user> (seventh melodic-minor 1)
     [1 b3 5 M7]
-    user> (apply notes-to-chord (seventh melodic-minor 1))
+    user> (notes-to-chord (seventh melodic-minor 1))
     minor-major-7th
 
     user> (seventh ionian 5)
     [5 M7 2 4]
-    user> (apply notes-to-chord (seventh ionian 5))
+    user> (notes-to-chord (seventh ionian 5))
     dominant-7th
+
+    user> (map #(notes-to-chord (seventh dorian %)) (range 1 8))
+    (minor-7th minor-7th major-7th dominant-7th minor-7th minor-7th-b5 major-7th)
 
 ## TODO
 

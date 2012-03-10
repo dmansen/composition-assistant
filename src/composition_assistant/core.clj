@@ -73,22 +73,26 @@
     (interval-map dist)))
 
 (defn notes-to-chord
-  ([one two three]
-     (let [i1 (interval one two)
-           i2 (interval two three)]
-       (cond (and (= i1 'major-3) (= i2 'minor-3)) 'major
-             (and (= i1 'minor-3) (= i2 'major-3)) 'minor
-             (and (= i1 'minor-3) (= i2 'minor-3)) 'diminished
-             (and (= i1 'major-3) (= i2 'major-3)) 'augmented)))
-  ([one two three seventh]
-     (let [i1 (interval one two)
-           i2 (interval two three)
-           i3 (interval three seventh)]
-       (cond
-        (and (= i1 'major-3) (= i2 'minor-3) (= i3 'major-3)) 'major-7th
-        (and (= i1 'major-3) (= i2 'major-3) (= i3 'minor-3)) 'augmented-7th
-        (and (= i1 'major-3) (= i2 'minor-3) (= i3 'minor-3)) 'dominant-7th
-        (and (= i1 'minor-3) (= i2 'major-3) (= i3 'minor-3)) 'minor-7th
-        (and (= i1 'minor-3) (= i2 'major-3) (= i3 'major-3)) 'minor-major-7th
-        (and (= i1 'minor-3) (= i2 'minor-3) (= i3 'major-3)) 'minor-7th-b5
-        (and (= i1 'minor-3) (= i2 'minor-3) (= i3 'minor-3)) 'diminished-7th))))
+  [chord]
+  (cond
+   (= 3 (count chord)) 
+   (let [[one two three] chord
+         i1 (interval one two)
+         i2 (interval two three)]
+     (cond (and (= i1 'major-3) (= i2 'minor-3)) 'major
+           (and (= i1 'minor-3) (= i2 'major-3)) 'minor
+           (and (= i1 'minor-3) (= i2 'minor-3)) 'diminished
+           (and (= i1 'major-3) (= i2 'major-3)) 'augmented))
+   (= 4 (count chord))
+   (let [[one two three seventh] chord
+         i1 (interval one two)
+         i2 (interval two three)
+         i3 (interval three seventh)]
+     (cond
+      (and (= i1 'major-3) (= i2 'minor-3) (= i3 'major-3)) 'major-7th
+      (and (= i1 'major-3) (= i2 'major-3) (= i3 'minor-3)) 'augmented-7th
+      (and (= i1 'major-3) (= i2 'minor-3) (= i3 'minor-3)) 'dominant-7th
+      (and (= i1 'minor-3) (= i2 'major-3) (= i3 'minor-3)) 'minor-7th
+      (and (= i1 'minor-3) (= i2 'major-3) (= i3 'major-3)) 'minor-major-7th
+      (and (= i1 'minor-3) (= i2 'minor-3) (= i3 'major-3)) 'minor-7th-b5
+      (and (= i1 'minor-3) (= i2 'minor-3) (= i3 'minor-3)) 'diminished-7th))))
