@@ -138,7 +138,7 @@
 (defn roots-and-chords
   [scale starting-note]
   (map (fn [i pitch svnth]
-         [pitch svnth (notes-to-pitches (seventh scale i) starting-note)])
+         [pitch svnth (notes-to-pitches (seventh scale i) pitch)])
        (range 1 8)
        (notes-to-pitches scale starting-note)
        (all-sevenths scale)))
