@@ -142,6 +142,6 @@
   (map (fn [i pitch triad svnth]
          [pitch triad svnth (notes-to-pitches (seventh scale i) pitch)])
        (range 1 8)
-       (notes-to-pitches scale starting-note)
+       (notes-to-pitches (scale) starting-note)
        (all-triads scale)
        (all-sevenths scale)))

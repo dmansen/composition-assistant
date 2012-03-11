@@ -10,7 +10,7 @@
 (defn tone-component
   [scale-name starting-note]
   [:div
-   [:div [:h3 "Scale tones: " (str (vec (notes-to-pitches (all-scales scale-name) (symbol starting-note))))]]
+   [:div [:h3 "Scale tones: " (str (vec (notes-to-pitches ((all-scales scale-name)) (symbol starting-note))))]]
    (let [tones (vec (roots-and-chords (all-scales scale-name) (symbol starting-note)))]
      (map (fn [scale]
             [:div
@@ -35,6 +35,6 @@
             all-starting-tones)]]
     [:input {:type "submit" :value "Go"}]]
    (if scale-name
-     [:h3 (str "Intervals: "(all-scales scale-name))])
+     [:h3 (str "Intervals: " ((all-scales scale-name)))])
    (if (and scale-name starting-note)
      (tone-component scale-name starting-note))))

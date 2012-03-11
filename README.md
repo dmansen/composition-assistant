@@ -36,6 +36,13 @@ All of the scales I know are enumerated in composition-assistant.scales. This al
     user> (seventh ionian 5)
     [5 M7 2 4]
 
+Scales are also functions that return different things depending on how many args you pass.
+
+    user> (aeolian)
+    [1 2 b3 4 5 b6 7]
+    user> (aeolian 'C)
+    (C D Eb F G Ab Bb)
+
 Or you can get a bit fancier and find, for example, all 7th chords in the major scale.
 
     user> (map #(seventh ionian %) (range 1 8))
