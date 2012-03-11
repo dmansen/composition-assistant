@@ -6,7 +6,7 @@
             (html5
               [:head
                [:title "Composition Assistant"]
-               (include-css "/css/reset.css")]
+               (include-css "/css/comp.css")]
               [:body
                [:div#wrapper
                 content]]))
