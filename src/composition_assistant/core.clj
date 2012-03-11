@@ -57,6 +57,14 @@
         three (nth (concat scale scale) (+ 4 real-starting))]
     [one two three]))
 
+(defn sus4
+  [scale starting-note]
+  (let [real-starting (- starting-note 1)
+        one (nth scale real-starting)
+        two (nth (concat scale scale) (+ 3 real-starting))
+        three (nth (concat scale scale) (+ 4 real-starting))]
+    [one two three]))
+
 (defn seventh
   [scale starting-note]
   (let [real-starting (- starting-note 1)
