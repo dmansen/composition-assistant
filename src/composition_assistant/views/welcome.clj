@@ -26,10 +26,12 @@
   (common/layout
    [:form {:action "/"}
     [:div "Mode: " [:select {:name "scale-name"}
-       (map (fn [name] [:option {:value name} name])
+                    (map (fn [name] [:option {:value name
+                                              :selected (if (= name scale-name) true false)} name])
             (keys all-scales))]]
     [:div "Start on: " [:select {:name "starting-note"}
-       (map (fn [tone] [:option {:value (str tone)} (str tone)])
+                        (map (fn [tone] [:option {:value (str tone)
+                                                  :selected (if (= (str tone) starting-note) true false)} (str tone)])
             all-starting-tones)]]
     [:input {:type "submit" :value "Go"}]]
    (if scale-name
