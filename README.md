@@ -2,6 +2,10 @@
 
 A program for helping you figure out scales and chords.
 
+## Web App
+
+There is a web app built in, though this is more geared towards creating a library for this stuff. I have it hosted on Heroku here: http://evening-leaf-4768.herokuapp.com/
+
 ## Usage
 
 Play with it at the REPL. I use a jazz notation for scale tones, which consists of:
