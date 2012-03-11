@@ -4,7 +4,7 @@
   (:use [noir.core :only [defpage]]
         [hiccup.core :only [html]]
         composition-assistant.scales
-        composition-assistant.absolute
+        composition-assistant.pitch
         composition-assistant.core))
 
 (defn tone-component

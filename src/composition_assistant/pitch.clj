@@ -1,4 +1,4 @@
-(ns composition-assistant.absolute
+(ns composition-assistant.pitch
   (use composition-assistant.core))
 
 (def pitch-to-chromatic
