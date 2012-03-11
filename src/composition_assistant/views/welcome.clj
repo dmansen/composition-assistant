@@ -7,10 +7,6 @@
         composition-assistant.absolute
         composition-assistant.core))
 
-(defpage "/welcome" []
-         (common/layout
-           [:p "Welcome to comp-assist"]))
-
 (defn tone-component
   [scale-name starting-note]
   [:div
@@ -26,9 +22,9 @@
               [:div {:class "seventh-tones"} (str "Tones: " (vec (scale 3)))]]])
           tones))])
 
-(defpage [:get "/comp"] {:keys [scale-name starting-note]}
+(defpage [:get "/"] {:keys [scale-name starting-note]}
   (common/layout
-   [:form {:action "/comp"}
+   [:form {:action "/"}
     [:div "Mode: " [:select {:name "scale-name"}
        (map (fn [name] [:option {:value name} name])
             (keys all-scales))]]
