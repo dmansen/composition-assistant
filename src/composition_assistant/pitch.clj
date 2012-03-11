@@ -91,9 +91,11 @@
 
 (defn rotate-until-first
   [elem coll]
-  (if (= elem (first coll))
-    coll
-    (recur elem (concat (rest coll) [(first coll)]))))
+  (if (not (some #{elem} coll))
+    (throw (new Exception "Element not in collection"))
+    (if (= elem (first coll))
+      coll
+      (recur elem (concat (rest coll) [(first coll)])))))
 
 (defn base-pitches
   [start]
