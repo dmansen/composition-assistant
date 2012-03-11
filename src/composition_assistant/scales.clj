@@ -99,3 +99,6 @@
    "Dorian" dorian "Dorianb2" dorian-b2 "Dorian#4" dorian-s4 "Phrygian" phrygian "Phrygianb4" phrygian-b4
    "Locrian" locrian "Locrianb4" locrian-b4 "Locrianb4b7" locrian-b4-b7 "Locrianb7" locrian-b7 "Locrian6" locrian-6
    "Locrian2" locrian-2 "Locrian26" locrian-2-6})
+
+(def all-starting-tones
+  '[C D E F G A B C# D# E# F# G# A# B# Cb Db Eb Fb Gb Ab Bb])
