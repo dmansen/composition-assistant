@@ -79,7 +79,7 @@ Converting a vector of scale tones into chords:
     user> (map #(notes-to-chord (seventh dorian %)) (range 1 8))
     (minor-7th minor-7th major-7th dominant-7th minor-7th minor-7th-b5 major-7th)
 
-The coolest part of this is in the composition-assistant.absolute package. (It's also terribly written as of right now.) Given pitch-agnostic vectors of notes and a key, you can convert them. This will do all the correct theory stuff.
+The coolest part of this is in the composition-assistant.pitch package. (It's also terribly written as of right now.) Given pitch-agnostic vectors of notes and a key, you can convert them. This will do all the correct theory stuff.
 
     user> (notes-to-pitches ionian 'C)
     (C D E F G A B)
